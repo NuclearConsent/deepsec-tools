@@ -7,10 +7,13 @@ The official documentation for the Deep Security APIs is available from the Tren
 ## Info
 
 **dsaDeploy11.0.0-326.ps1**
+
 Download and Install Windows DSA version 11.0.0-326
 
 **get-allComputerComponentVersions.ps1**
+
 Creats a CSV of all computers and virus pattern information 
 
 **nsxCredCheck.ps1**
+
 Used to verify NSX credentials outside of Deep Security
