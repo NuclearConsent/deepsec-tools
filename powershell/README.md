@@ -12,8 +12,12 @@ Download and Install Windows DSA version 11.0.0-326
 
 **get-allComputerComponentVersions.ps1**
 
-Creats a CSV of all computers and virus pattern information 
+Generate CSV of all computers and virus pattern information 
 
 **nsxCredCheck.ps1**
 
 Used to verify NSX credentials outside of Deep Security
+
+**computerReport.ps1**
+
+Generate CSV of all computers with hostname, last ip, OS, and IPS status.
