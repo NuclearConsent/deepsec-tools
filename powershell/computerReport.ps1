@@ -1,10 +1,18 @@
 <#
 .SYNOPSIS
-PowerShell Script to query computers and save output to csv
-.LINK
-http://success.trendmicro.com
+  PowerShell Script to query computers and save output to csv.  It will save the script to "C:\DeepSecurity".
+.PARAMETER managerIp
+  The manager IP or URL
+.PARAMETER managerPort
+  The port the manager is listening on.  It's usually 4119
+.PARAMETER user
+  The user that's going to login
+.PARAMETER password
+  Password of the user
+.PARAMETER tenant
+  Tenant name
 .EXAMPLE
-.\computerReport.ps1 -managerIp 127.0.0.1 -managerPort 4119 -user api -password NoVirus -tenant "Trend Micro"
+  .\computerReport.ps1 -managerIp 127.0.0.1 -managerPort 4119 -user api -password NoVirus1 -tenant "Trend Micro"
 #>
 
 param (
@@ -16,7 +24,7 @@ param (
 )
 
 # Variables
-$outputfilepath = "C:\deepsecurity"
+$outputfilepath = "C:\DeepSecurity"
 $date = Get-Date -UFormat "%m_%d_%Y"
 $stamp = (Get-Date).toString("HH:mm:ss yyyy/MM/dd")
 $manager = "${managerIp}:$managerPort"
@@ -31,7 +39,7 @@ Function LogWrite {
 }
 
 # Make sure working directory exists
-if(!(Test-Path "C:\deepsecurity\log" )){
+if (!(Test-Path "C:\DeepSecurity\log")){
     New-Item -ItemType directory -Path "C:\DeepSecurity\Log"
 }
 
@@ -56,7 +64,7 @@ catch {
   throw "Unable to connect to manager - $manager"
 }
 
-# Create soap object
+# Create new soap proxy
 [System.Net.ServicePointManager]::ServerCertificateValidationCallback={$true}
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 $DSMSoapService = New-WebServiceProxy -uri "https://$manager/webservice/Manager?WSDL" -Namespace "DSSOAP" -ErrorAction Stop
