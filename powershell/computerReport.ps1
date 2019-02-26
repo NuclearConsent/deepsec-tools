@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  PowerShell Script to query computers and save output to csv.  It will save the script to "C:\DeepSecurity".
+  PowerShell Script to query computer name, platform, IPS status, and version. It will save the script to "C:\DeepSecurity".
 .PARAMETER managerIp
   The manager IP or URL
 .PARAMETER managerPort
@@ -28,8 +28,8 @@ $outputfilepath = "C:\DeepSecurity"
 $date = Get-Date -UFormat "%m_%d_%Y"
 $stamp = (Get-Date).toString("HH:mm:ss yyyy/MM/dd")
 $manager = "${managerIp}:$managerPort"
-$file = "C:\DeepSecurity\ComputerReport_$date.csv"
-$log = "C:\DeepSecurity\Log\error.log"
+$file = "C:\DeepSecurity\computerReport_$date.csv"
+$log = "C:\DeepSecurity\Log\computer_error.log"
 $versionMinimum = '4'
 
 # Function to write logs
@@ -91,17 +91,21 @@ if (Test-Path $file) {
 }
 else {
   # Query all the groups
-  $groups = $DSM.hostGroupRetrieveAll($SID);
+  $group = @()
+  # Add "Computers" parent group
+  $group += $DSM.hostGroupRetrieve($null, $SID);
+  # Add everything else
+  $group += $DSM.hostGroupRetrieveAll($SID);
   # Loop through all groups
-  foreach ($a in $groups) {
+  foreach ($i in $group) {
     # Create an object
     $HFT = New-Object DSSOAP.HostFilterTransport
     $HFT.type = [DSSOAP.EnumHostFilterType]::HOSTS_IN_GROUP
-    $HFT.hostGroupID = $a.id
+    $HFT.hostGroupID = $i.id
     # Retrieve specific information from the object
-    $cRetrieve = $DSM.hostDetailRetrieve($HFT, [DSSOAP.EnumHostDetailLevel]::HIGH, $SID) | Select-Object name, lastIPUsed, overallVersion, platform, overallDpiStatus
+    $response = $DSM.hostDetailRetrieve($HFT, [DSSOAP.EnumHostDetailLevel]::HIGH, $SID) | Select-Object name, lastIPUsed, overallVersion, platform, overallDpiStatus
     # Write to file
-    $cRetrieve | Export-Csv -Path $file -Append -NoTypeInformation
+    $response | Export-Csv -Path $file -Append -NoTypeInformation
   }
 }
 # End the session
