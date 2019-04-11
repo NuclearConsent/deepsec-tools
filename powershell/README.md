@@ -1,8 +1,7 @@
 # Deep Security PowerShell Scripts
 
 ## Support
-This is a community project and while you will see contributions from the Deep Security team, there is no official Trend Micro support for this project. 
-The official documentation for the Deep Security APIs is available from the Trend Micro Online Help Centre.
+There is no official Trend Micro support for this project. 
 
 ## Info
 
@@ -21,3 +20,6 @@ Used to verify NSX credentials outside of Deep Security
 **computerReport.ps1**
 
 Generate CSV of all computers with hostname, last ip, OS, and IPS status.
+
+**get-malwareEvents.ps1**
+Retrieve the number of Anti-Malware events for the last 7 days
