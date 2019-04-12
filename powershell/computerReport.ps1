@@ -69,7 +69,6 @@ catch {
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
 $DSMSoapService = New-WebServiceProxy -uri "https://$manager/webservice/Manager?WSDL" -Namespace "DSSOAP" -ErrorAction Stop
 $DSM = New-Object DSSOAP.ManagerService
-$SID
 
 # Authenticate to the DSM
 try {
