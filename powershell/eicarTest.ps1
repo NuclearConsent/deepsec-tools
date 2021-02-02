@@ -33,7 +33,7 @@ Start-Sleep -s 50
 
 # Create diagnostic package if eicar is still on system
 if (Test-Path $filename) {
-  Write-Host "Eicar found; Creating diagnostic package"
+  Write-Host "Eicar not removed in $filename; Creating diagnostic package"
   & $Env:ProgramFiles"\Trend Micro\Deep Security Agent\dsa_control" -d
 }
 else {
